@@ -1,6 +1,5 @@
 #include<stdlib.h>
 #include<stdio.h>
-#include<assert.h>
 
 struct nodo{
     int info;
