@@ -27,8 +27,8 @@ void pre_insert(nodo** pptr, int val);
 // POST: la lista puntata da pptr è quella originale con un nodo aggiunto "in testa" (inizio lista) avente campo info == val
 
 // PRE: pptr è un puntatore ad una lista (possibilmente vuota) passato per riferimento
-void suf_insert(nodo* ptr, int val);
-void suf_insert_r(nodo *ptr, int value);
+void suf_insert(nodo** pptr, int val);
+void suf_insert_r(nodo **pptr, int value);
 // POST: la lista puntata da pptr è quella originale con un nodo aggiunto "in coda" (fine lista) avente campo info == val
 
 /* Nuove funzioni */
@@ -47,46 +47,18 @@ void modifica(nodo* ptr, int pos, int val);
 // POST: la lista puntata da ptr è uguale a quella originale ma il nodo in posizione pos ha campo info == val
 
 // PRE: ptr è un puntatore ad una lista (possibilmente vuota)
-void raddoppia(nodo *ptr){
-    for(; ptr != NULL; ptr = ptr -> next)
-        ptr -> info *= 2;
-    return;
-}
+void raddoppia(nodo *ptr);
+void raddoppia_r(nodo *ptr);
 // POST: ogni elemento della lista risultera' raddoppiato
 
 // PRE: ptr è un puntatore ad una lista (possibilmente vuota)
 void delete(nodo **pptr, int pos);
 // POST: l'elemento di posizione pos sara' eliminato dalla lista
 
-int main(){
 
-    /*
-    //CONSEGNA DI MOODLE
-
-
-    struct nodo *list = NULL;
-
-    int len;
-    scanf("%d", &len);
-
-    int val;
-    for(int i=0; i<len; i++){
-        scanf("%d", &val);
-        if(i%2==0){
-            pre_insert(&list, val);
-        }
-        else suf_insert(list, val);
-    }
-    print_list(list);
-
-    //raddoppio ogni elemento della lista (codice qui)
-    raddoppia(list);
-    print_list(list);
-
-    */
-
-    //TEST IN LOCALE
-
+int test_iterativi(){
+    printf("TEST ITERATIVI\n\n");
+    
     nodo *lista;
 
     lista = NULL;
@@ -113,14 +85,14 @@ int main(){
     
     printf("\n\n");
 
-    suf_insert(lista, 5);
+    suf_insert(&lista, 5);
     printf("[test 'suf_insert()']\nexp: 30 20 10 5\nout: ");
     print_list(lista); //exp 30 20 10 5
 
     printf("\n\n");
 
-    suf_insert(lista, 15);
-    suf_insert(lista, 25);
+    suf_insert(&lista, 15);
+    suf_insert(&lista, 25);
     printf("[test 'suf_insert()']\nexp: 30 20 10 5 15 25\nout: ");
     print_list(lista); //exp 30 20 10 5 15 25
 
@@ -154,6 +126,94 @@ int main(){
 
     printf("\n\n");
     
+    delete(&lista, 0);
+    delete(&lista, 2);
+    delete(&lista, 2);
+    printf("[test 'delete()']\nexp: 180 10\nout: ");
+    print_list(lista);
+
+    printf("\n\n");
+    
+    
+    return 1;
+}
+
+int test_ricorsivi(){
+    printf("TEST RICORSIVI\n\n");
+    
+    nodo *lista;
+    
+    lista = NULL;
+    printf("[test 'print_list_r()']\nexp: NULL\nout: ");
+    print_list_r(lista); //exp NULL
+    
+    printf("\n\n");
+    
+    suf_insert_r(&lista, 15);
+    printf("[test 'suf_insert_r()']\nexp: 15 --> NULL\nout: ");
+    print_list_r(lista);
+    
+    printf("\n\n");
+    
+    suf_insert_r(&lista, 25);
+    suf_insert_r(&lista, 35);
+    printf("[test 'suf_insert_r()']\nexp: 15 --> 25 --> 35 --> NULL\nout: ");
+    print_list_r(lista);
+    
+    printf("\n\n");
+    
+    printf("[test 'lung_r()']\nexp: 3\nout: ");
+    printf("%d", lung_r(lista));
+    
+    printf("\n\n");
+    
+    raddoppia_r(lista);
+    printf("[test 'raddoppia_r()']\nexp: 30 --> 50 --> 70 --> NULL\nout: ");
+    print_list_r(lista);
+    
+    return 1;
+}
+
+int main(){
+
+    /*
+    //CONSEGNA DI MOODLE
+
+
+    struct nodo *list = NULL;
+
+    int len;
+    scanf("%d", &len);
+
+    int val;
+    for(int i=0; i<len; i++){
+        scanf("%d", &val);
+        if(i%2==0){
+            pre_insert(&list, val);
+        }
+        else suf_insert(list, val);
+    }
+    print_list(list);
+
+    //raddoppio ogni elemento della lista (codice qui)
+    raddoppia(list);
+    print_list(list);
+
+    */
+
+    //TEST IN LOCALE
+    if(!test_iterativi()){ //ocio che non confronto gli output ma guardo solo se la funzione torna 1 (dunque almeno compila)
+        printf("Errore nei test iterativi!");
+        return -1;
+    }
+    
+    printf("\n\n\n\n");
+    
+    if(!test_ricorsivi()){ //same
+        printf("Errore nei test ricorsivi!");
+        return -1;
+    }
+
     return 0;
 }
 
@@ -197,18 +257,31 @@ void pre_insert(nodo **pptr, int value){
     return;
 }
 
-void suf_insert(nodo *ptr, int value){
-    for(;(ptr -> next) != NULL; ptr = ptr -> next);
-    ptr -> next = new_nodo(value);
+void suf_insert(nodo **pptr, int value){
+    if(*pptr == NULL){
+        *pptr = new_nodo(value);
+        return;
+    }
+    nodo *tmp = *pptr;
+    for(;(*pptr) -> next != NULL; (*pptr) = (*pptr) -> next);
+    (*pptr) -> next = new_nodo(value);
+    (*pptr) = tmp;
     return;
 }
 
-void suf_insert_r(nodo *ptr, int value){
-    if(ptr -> next == NULL){
-        ptr -> next = new_nodo(value);
+void suf_insert_r(nodo **pptr, int value){
+    if(*pptr == NULL){ //solo se la lista è vuota
+        *pptr = new_nodo(value);
         return;
     }
-    suf_insert_r(ptr -> next, value);
+    
+    nodo *tmp = (*pptr);
+    if((*pptr) -> next == NULL){
+        (*pptr) -> next = new_nodo(value);
+        return;
+    }
+    suf_insert_r(&((*pptr) -> next), value);
+    (*pptr) = tmp;
 }
 
 int lung(nodo *ptr){
@@ -234,15 +307,31 @@ void modifica(nodo* ptr, int pos, int val){
     return;
 }
 
+void raddoppia(nodo *ptr){
+    for(; ptr != NULL; ptr = ptr -> next)
+        ptr -> info *= 2;
+    return;
+}
+
+void raddoppia_r(nodo *ptr){
+    if(ptr == NULL)
+        return;
+    ptr -> info *= 2;
+    raddoppia_r(ptr -> next);
+}
+
 void delete(nodo **pptr, int pos){
-    if(pos > lung(&(*pptr)))
+    if(pos > lung((*pptr)))
         return;
 
     if(pos == 0)
         (*pptr) = (*pptr) -> next;
     else{
+        nodo *tmp;
+        tmp = (*pptr);
         for(int i = 1; i < pos; i++, (*pptr) = (*pptr) -> next);
         (*pptr) -> next = (*pptr) -> next -> next;
+        (*pptr) = tmp;
     }
     return;
 }
