@@ -87,3 +87,21 @@ void quicksort_d(int A[], int lo, int hi){
     }
     return;
 }
+
+unsigned short iscrescente(int a[], unsigned int dim){
+    if(dim <= 1)
+        return 1;
+    if(a[dim - 2] <= a[dim - 1])
+        return 1 * crescente(a, dim - 1);
+    else
+        return 0;
+}
+
+unsigned short isdecrescente(int a[], unsigned int dim){
+    if(dim <= 1)
+        return 1;
+    if(a[dim - 2] >= a[dim - 1])
+        return 1 * decrescente(a, dim - 1);
+    else
+        return 0;
+}
