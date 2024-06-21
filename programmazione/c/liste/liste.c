@@ -37,6 +37,7 @@ void print_list(nodo *ptr){
     return;
 }
 
+//per stamparlo in maniera : root -> nodo1 -> nodo2 -> ... -> NULL
 void print_list_v(nodo *ptr){
     for(; ptr != NULL; ptr = ptr -> next)
         printf("%d --> ", ptr -> info);
