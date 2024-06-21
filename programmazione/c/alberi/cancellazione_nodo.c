@@ -24,8 +24,6 @@ int main(int argc, char **argv){
     printf("\n\ncancellato 50\n");
     stampa_bst_2(albero);
     stampa_bst(albero);
-    
-    
 
     printf("\n");
 
