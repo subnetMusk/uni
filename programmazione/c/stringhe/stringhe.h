@@ -1,5 +1,7 @@
 #include "stringhe.c"
 void stampaStringa(char* s);
-int dimensioneStringa(char* s);
+int lung_string(char* s);
+int lung_string_r(char* s);
+void inverti_stringa(char *s, int dim)
 void concatenaStringhe(char* S1, char* S2);
 void test_concatenaStringhe();
