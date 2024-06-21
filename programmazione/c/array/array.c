@@ -117,3 +117,35 @@ unsigned short isdecrescente(int a[], unsigned int dim){
     else
         return 0;
 }
+
+int confronta_array(int *X, int *Y, int dim){
+    for(int i = 0; i < dim; i++){
+        if(*(X + i) != *(Y + i))
+            return 0;
+    }
+    return 1;
+}
+
+//pre: 1 array di interi e la sua dimensione
+//post: l'array risulterà "invertito"
+void inverti(int *A, int dim){
+    int copia[dim];
+    for(int i = 0; i < dim; i++){
+        copia[i] = A[dim - 1 - i];
+    }
+    for(int i = 0; i < dim; i++){
+        A[i] = copia[i];
+    }
+    return;
+}
+
+//pre: 1 array di dimensione N
+//post: ritorno 1 se l'array è palindromo, 0 altrimenti
+int palindromo(int array[], int n){
+    int copia[n];
+    for(int i = 0; i < n; i++){
+        copia[i] = array[i];
+    }
+    inverti(copia, n);
+    return confronta_array(array, copia, n);
+}
