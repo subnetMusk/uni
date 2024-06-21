@@ -1,4 +1,4 @@
-#include "list/liste.c"
+#include "liste.c"
 
 /*
     STRUTTURA NODO:
