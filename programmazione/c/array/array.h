@@ -1,4 +1,4 @@
-#include "array/read_only.c"
+#include "array.c"
 void leggi_array(int a[], int dim);
 void stampa_array(int dim, int a[dim]);
 void stampaMatrice(int *p, int righe, int colonne);
