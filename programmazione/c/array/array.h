@@ -12,3 +12,5 @@ void incrementa_array(int* A, int length, int x, int pos);
 int confronta_array(int *X, int *Y, int dim);
 void inverti(int *A, int dim);
 int palindromo(int array[], int n);
+void rimuovi_elemento(int *array, int *dim, int pos);
+void rimuovi_triple(int *array, int *dim);
