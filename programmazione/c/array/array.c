@@ -24,6 +24,18 @@ void stampaMatrice(int *p, int righe, int colonne){
     return;
 }
 
+void incrementa_array(int* A, int length, int x, int pos){
+    int array_copia[length];
+    for(int i = 0; i < length; i++){
+        array_copia[i] = A[i];
+    }
+    for(int i = pos; i < length; i++){
+        A[i + 1] = array_copia[i];
+    }
+    return;
+}
+
+
 void swap(int a[], int i1, int i2){
     int appoggio = a[i1];
     *(a+i1) = a[i2];
