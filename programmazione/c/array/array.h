@@ -7,3 +7,5 @@ int partition(int a[], int lo, int hi);
 void quicksort(int a[], int lo, int hi); //lo = indice minore; hi = indice maggiore
 int partition_d(int a[], int lo, int hi); //in ordine decrescente
 void quicksort_d(int a[], int lo, int hi);
+unsigned short iscrescente(int a[], unsigned int dim);
+unsigned short isdecrescente(int a[], unsigned int dim);
