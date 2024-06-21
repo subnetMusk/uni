@@ -1,4 +1,4 @@
-#include "alberi/alberi.c"
+#include "alberi.c"
 
 void init_bst(bst **pptr);
 
