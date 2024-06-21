@@ -11,19 +11,6 @@ void stampa_array(int dim, int a[dim]){
     return;
 }
 
-void stampaMatrice(int *p, int righe, int colonne){
-    printf("matrice[%d][%d]:\n{\n", righe, colonne);
-    for(int i = 0; i < righe * colonne; i++){
-        printf("%d", *(p + i));
-        if(((i + 1) % colonne) || i == 0)
-            printf(" ");
-        else
-            printf("\n");
-    }
-    printf("}\n");
-    return;
-}
-
 void incrementa_array(int* A, int length, int x, int pos){
     int array_copia[length];
     for(int i = 0; i < length; i++){
