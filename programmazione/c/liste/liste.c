@@ -258,6 +258,58 @@ void reverse_list(struct nodo **ptr){
     return;
 }
 
+//PRE: orig è un riferimento ad una lista concatenata, lim1 e lim2 due interi
+nodo* extract(snodo** orig, int lim1, int lim2){
+    if((*orig) == NULL)
+        return NULL;
+    
+    nodo *new_list = NULL;
+    nodo *app = (*orig);
+    nodo *tmp = (*orig);
+
+    //intervallo non presente
+    int intervallo_presente = 0;
+    for(; tmp != NULL; tmp = tmp -> next){
+        if(tmp -> info == lim1)
+            intervallo_presente++;
+        if(tmp -> info == lim2 && intervallo_presente)
+            intervallo_presente++;
+    }
+    if(intervallo_presente < 2)
+        return NULL;
+    
+    
+    // lim1 inizio
+    if((*orig) -> info == lim1){
+        new_list = (*orig);
+        tmp = new_list;
+        for(; tmp -> next != NULL && tmp -> info != lim2 ; tmp = tmp -> next);
+        (*orig) = tmp -> next;
+        tmp -> next = NULL;
+        return new_list;
+    }
+    
+    tmp = (*orig);
+    
+    //raggiungiamo il precedente di lim1 (lim1 sappiamo non essere il primo elemento dall'if sopra)
+    for(; tmp -> next -> info != lim1; tmp = tmp -> next);
+    
+    //lo salviamo in app ed impostiamo l'inizio della nuova lista all'elemento successivo
+    app = tmp;
+    new_list = tmp -> next;
+    
+    //raggiungiamo lim2 (che può corrispondere a lim1)
+    for(; tmp -> info != lim2; tmp = tmp -> next);
+    
+    //colleghiamo la lista originale a tmp -> next (primo elemento fuori dal range)
+    app -> next = tmp -> next;
+    tmp -> next = NULL;
+    
+    return new_list;
+}
+//POST: se la lista contiene, in qualche posizione i e j con i<=j, l'intero lim1 in i e lim2 in j, 
+
+
 
 
 /* LISTE BIDIREZIONALI */
