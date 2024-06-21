@@ -40,3 +40,13 @@ void matrice_identita_double(double *Matrice, int dim){
         }
     }
 }
+
+void moltiplica_matrici_double(int dim, double *mat1, double *mat2, double *matRisultato){
+    double dato;
+    for(int i = 0; i < dim; i++){
+        dato = 0;
+        for(int j = 0; j < dim; j++){
+            dato += *((mat1 + i) + j) * *((mat2 + i) + j);
+        }
+    }
+}
