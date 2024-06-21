@@ -1,0 +1,8 @@
+#include "array/read_only.c"
+void leggi_array(int a[], int dim);
+void stampa_array(int dim, int a[dim]);
+void swap(int a[], int i1, int i2);
+int partition(int a[], int lo, int hi);
+void quicksort(int a[], int lo, int hi); //lo = indice minore; hi = indice maggiore
+int partition_d(int a[], int lo, int hi); //in ordine decrescente
+void quicksort_d(int a[], int lo, int hi);
