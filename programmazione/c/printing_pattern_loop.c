@@ -1,3 +1,5 @@
+//non mi ricordo se l'ho effettivamente risolto, in caso si lascia la risoluzione al lettore
+
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
