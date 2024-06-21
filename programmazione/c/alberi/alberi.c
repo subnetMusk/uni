@@ -196,6 +196,7 @@ void stampa_bst(bst* ptr) {
     }
 }
 
+//stampo l'albero in maniera più leggibile
 void stampa_bst_2(bst *ptr){
     if(ptr == NULL)
         return;
@@ -219,8 +220,11 @@ void stampa_bst_2(bst *ptr){
     stampa_bst_2(ptr -> right);
 }
 
+
+
 //cancellazione di un nodo bst
 
+//ritorna il minimo tra 3 valori != -1
 int minimo_tre_valori(int a, int b, int c){
     int minimo;
     if(a != -1){
@@ -250,8 +254,12 @@ int minimo(bst *ptr){
     return minimo_tre_valori(min_destra, min_sinistra, ptr -> value);
 }
 
+
 //pre: puntatore a puntatore ad albero bst,
     //int val = valore da rimuovere dall'albero (se ci sono più valori uguali ne cancello solo 1)
+//post: se val ∈ bst sarà rimosso
+
+//ATTENZIONE --> decommentare i printf per il debug
 
 
     /*
@@ -265,12 +273,12 @@ void delete_node(bst **pptr, int val){
     if((*pptr) == NULL)
         return;
     
-    printf("\nIO -> %d\n", (*pptr) -> value);
+    //printf("\nIO -> %d\n", (*pptr) -> value);
 
     if((*pptr) -> left != NULL && (*pptr) -> left -> value == val){
         //caso 1
         if((*pptr) -> left -> left == NULL && (*pptr) -> left -> right == NULL){
-            printf("[CASO 1 sx] (io -> %d) child -> %d\n", (*pptr) -> value, (*pptr) -> left -> value);
+            //printf("[CASO 1 sx] (io -> %d) child -> %d\n", (*pptr) -> value, (*pptr) -> left -> value);
             free((*pptr) -> left);
             (*pptr) -> left = NULL;
             return;
@@ -278,18 +286,18 @@ void delete_node(bst **pptr, int val){
         else{
             //caso 2
             if(((*pptr) -> left -> left != NULL) && ((*pptr) -> left -> right == NULL)){
-                printf("[CASO 2 sx] (io -> %d) child -> %d (l -> %d / r -> NULL)\n", (*pptr) -> value, (*pptr) -> left -> value, (*pptr) -> left -> left -> value);
+                //printf("[CASO 2 sx] (io -> %d) child -> %d (l -> %d / r -> NULL)\n", (*pptr) -> value, (*pptr) -> left -> value, (*pptr) -> left -> left -> value);
                 (*pptr) -> left = (*pptr) -> left -> left;
                 return;
             }
             else if(((*pptr) -> left -> left == NULL) && ((*pptr) ->  left -> right != NULL)){
-                printf("[CASO 2 sx] (io -> %d) child -> %d (l -> NULL / r -> %d)\n", (*pptr) -> value, (*pptr) -> left -> value, (*pptr) -> left -> right -> value);
+                //printf("[CASO 2 sx] (io -> %d) child -> %d (l -> NULL / r -> %d)\n", (*pptr) -> value, (*pptr) -> left -> value, (*pptr) -> left -> right -> value);
                 (*pptr) -> left = (*pptr) -> left -> right;
                 return;
             }
             else{
                 //caso 3
-                printf("[CASO 3 sx] (io -> %d) child -> %d (l -> %d / r -> %d)\n", (*pptr) -> value, (*pptr) -> left -> value, (*pptr) -> left -> left -> value, (*pptr) -> left -> right -> value);
+                //printf("[CASO 3 sx] (io -> %d) child -> %d (l -> %d / r -> %d)\n", (*pptr) -> value, (*pptr) -> left -> value, (*pptr) -> left -> left -> value, (*pptr) -> left -> right -> value);
                 int min = minimo(*(&((*pptr) -> left) -> right));
                 delete_node(&((*pptr) -> left), min);
                 (*pptr) -> left -> value = min;
@@ -300,25 +308,25 @@ void delete_node(bst **pptr, int val){
 
     if((*pptr) -> right != NULL && (*pptr) -> right -> value == val){
         if((*pptr) -> right -> left == NULL && (*pptr) -> right -> right == NULL){
-            printf("[CASO 1 dx] (io -> %d) child -> %d\n", (*pptr) -> value, (*pptr) -> right -> value);
+            //printf("[CASO 1 dx] (io -> %d) child -> %d\n", (*pptr) -> value, (*pptr) -> right -> value);
             free((*pptr) -> right);
             (*pptr) -> right = NULL;
             return;
         }
         else{
             if(((*pptr) -> right -> left != NULL) && ((*pptr) ->  right -> right == NULL)){
-                printf("[CASO 2 dx] (io -> %d) child -> %d (l -> %d / r -> NULL)\n", (*pptr) -> value, (*pptr) -> right -> value, (*pptr) -> right -> left -> value);
+                //printf("[CASO 2 dx] (io -> %d) child -> %d (l -> %d / r -> NULL)\n", (*pptr) -> value, (*pptr) -> right -> value, (*pptr) -> right -> left -> value);
                 (*pptr) -> right = (*pptr) -> right -> left;
                 return;
             }
             else if(((*pptr) -> right -> left == NULL) && ((*pptr) ->  right -> right != NULL)){
-                printf("[CASO 2 dx] (io -> %d) child -> %d (l -> NULL / r -> %d)\n", (*pptr) -> value, (*pptr) -> right -> value, (*pptr) -> right -> right -> value);
+                //printf("[CASO 2 dx] (io -> %d) child -> %d (l -> NULL / r -> %d)\n", (*pptr) -> value, (*pptr) -> right -> value, (*pptr) -> right -> right -> value);
                 (*pptr) -> right = (*pptr) -> right -> right;
                 return;
             }
             else{
                 //caso 3
-                printf("[CASO 3 dx] (io -> %d) child -> %d (l -> %d / r -> %d)\n", (*pptr) -> value, (*pptr) -> right -> value, (*pptr) -> right -> left -> value, (*pptr) -> right -> right -> value);
+                //printf("[CASO 3 dx] (io -> %d) child -> %d (l -> %d / r -> %d)\n", (*pptr) -> value, (*pptr) -> right -> value, (*pptr) -> right -> left -> value, (*pptr) -> right -> right -> value);
                 int min = minimo(*(&((*pptr) -> right) -> right));
                 delete_node(&((*pptr) -> right), min);
                 (*pptr) -> right -> value = min;
@@ -327,7 +335,7 @@ void delete_node(bst **pptr, int val){
         }
     }
 
-    printf("\n%d < %d --> %d\n", (*pptr) -> value, val, (*pptr) -> value < val);
+    //printf("\n%d < %d --> %d\n", (*pptr) -> value, val, (*pptr) -> value < val);
     if((*pptr) -> value < val){
         if((*pptr) -> right != NULL)
             delete_node(&((*pptr) -> right), val);
