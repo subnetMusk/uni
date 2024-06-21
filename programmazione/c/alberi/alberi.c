@@ -164,6 +164,7 @@ void popola_bst(bst **pptr, int min, int max, int *count, int max_count) {
     return;
 }
 
+//funzione per avere una sorta di albero "standard" su cui provare le funzioni
 void popola_ordinato(bst **pptr){
     inserisci_bst(pptr, 20);
     inserisci_bst(pptr, 10);
