@@ -136,3 +136,31 @@ int palindromo(int array[], int n){
     inverti(copia, n);
     return confronta_array(array, copia, n);
 }
+void rimuovi_elemento(int *array, int *dim, int pos){
+    if(pos > *dim - 1 || *dim < 1 || pos < 0)
+        return;
+    
+    for(int i = pos; i < *dim; i++){
+        if(i != *dim - 1)
+            *(array + i) = *(array + i + 1);
+        else
+            *(array + i) = '\0';
+    }
+    
+    *dim = *dim - 1;
+
+    return; 
+}
+
+void rimuovi_triple(int *array, int *dim){
+    if(*dim < 3)
+        return;
+    int i = 0;
+    while(i + 2 < *dim){
+        if(*(array + i) == *(array + (i + 1)) && *(array + i) == *(array + (i + 2)))
+            rimuovi_elemento(array, dim, i + 2);
+        else
+            i++;
+    }
+    return;
+}
