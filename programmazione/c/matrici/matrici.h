@@ -21,3 +21,4 @@ void trasposta_matrice_double(double *, double *, int , int );
           Matrice identità: 1 sulla diagonale principale, 0 gli altri elementi
 */
 void matrice_identita_double(double *Matrice, int dim);
+void moltiplica_matrici_double(int dim, double *mat1, double *mat2, double *matRisultato);
