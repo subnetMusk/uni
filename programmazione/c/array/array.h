@@ -9,3 +9,4 @@ int partition_d(int a[], int lo, int hi); //in ordine decrescente
 void quicksort_d(int a[], int lo, int hi);
 unsigned short iscrescente(int a[], unsigned int dim);
 unsigned short isdecrescente(int a[], unsigned int dim);
+void incrementa_array(int* A, int length, int x, int pos);
