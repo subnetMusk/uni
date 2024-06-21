@@ -11,7 +11,13 @@ void stampaStringa(char* s){
     return;
 }
 
-int dimensioneStringa(char* s){
+int lung_string_r(char *s) { 
+    if (*s == '\0')
+        return 0;
+    return 1+lung_string(s+1);
+}
+
+int lung_string(char* s){
     int caratteri = 0;
     while(*s != '\0'){
         caratteri++;
@@ -19,6 +25,25 @@ int dimensioneStringa(char* s){
     }
     return caratteri;
 }
+
+void strcat_c (char *str, char c){ //copiata da stackoverflow, fa l'append di un carattere alla stringa
+    for (;*str;str++);
+    *str++ = c; 
+    *str++ = 0;
+}
+
+void inverti_stringa(char *s, int dim){
+    if(dim == 0)
+        return;
+
+    char carattere = s[0];
+    inverti_stringa(s + 1, dim - 1);
+    strcat_c(s, carattere);
+    memmove(s, s + 1, lung_string(s)); //cancella il primo carattere della stringa
+
+    return;
+}
+
 
 void concatenaStringhe(char* S1, char* S2) {
     for(int i = dimensioneStringa(S1), j = 0; i < dimensioneStringa(S1) + dimensioneStringa(S2); i++, j++){
