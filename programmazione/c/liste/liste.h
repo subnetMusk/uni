@@ -83,6 +83,8 @@ void popola_ord(nodo **pptr, int met, int n_elem, int min, int max);
 
 void reverse_list(struct nodo **ptr);
 
+nodo* extract(snodo** orig, int lim1, int lim2);
+
 void insert_dlist(struct nodoD **first, struct nodoD **last, int pos, int info);
 
 int lungd(struct nodoD *ptr);
