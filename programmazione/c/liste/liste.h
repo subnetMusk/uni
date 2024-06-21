@@ -98,3 +98,5 @@ void print_backwardD_r_(struct nodoD* last);
 void print_backwardD(struct nodoD* last);
 
 void reverse_dlist(struct nodoD **first, struct nodoD **last);
+
+void clone_invlist(nodo *originale, nodo **inversa);
