@@ -322,7 +322,7 @@ void salta(nodo **list){
 }
 
 void ruota_lista(nodo **list, int salti){
-    if(*list == NULL)
+    if(*list == NULL || lung_r(*list) < 2)
         return;
     
     salti %= lung(*list);
