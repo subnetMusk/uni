@@ -6,7 +6,7 @@
         eccezione fatta per la radice che non ha predecessori, e al massimo due nodi successori) che soddisfi 
         la condizione 'valore nodo successore sx' < 'valore nodo padre' <= 'valore nodo successore destro'
     
-    Esemprio concreto:
+    Esempio concreto:
 */
 
 typedef struct bst{
