@@ -309,7 +309,28 @@ nodo* extract(snodo** orig, int lim1, int lim2){
 }
 //POST: se la lista contiene, in qualche posizione i e j con i<=j, l'intero lim1 in i e lim2 in j, 
 
+void salta(nodo **list){
+    if(*list == NULL)
+        return;
 
+    nodo *tmp = *list;
+    for(; tmp -> next -> next != NULL; tmp = tmp -> next);
+    pre_insert(list, tmp -> next -> info);
+    free(tmp -> next);
+    tmp -> next = NULL;
+    return;
+}
+
+void ruota_lista(nodo **list, int salti){
+    if(*list == NULL)
+        return;
+    
+    salti %= lung(*list);
+    for(int i = 0; i < salti; i++){
+        salta(list);
+    }
+    return;
+}
 
 
 /* LISTE BIDIREZIONALI */
