@@ -85,6 +85,10 @@ void reverse_list(struct nodo **ptr);
 
 nodo* extract(snodo** orig, int lim1, int lim2);
 
+void salta(nodo **list);
+
+void ruota_lista(nodo **list, int salti);
+
 void insert_dlist(struct nodoD **first, struct nodoD **last, int pos, int info);
 
 int lungd(struct nodoD *ptr);
