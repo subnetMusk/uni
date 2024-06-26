@@ -89,7 +89,7 @@ void consegna_esame();
 void test();
 
 int main(void) {
-    //consegna_moodle();
+    //consegna_esame();
     test();
 
     return 0;
