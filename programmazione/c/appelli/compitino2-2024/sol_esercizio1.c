@@ -84,7 +84,7 @@ void swap(int* a, int dim, int m, int n, int p) {
     }
 }
 
-void consegna_moodle();
+void consegna_esame();
 
 void test();
 
@@ -156,7 +156,7 @@ void test(){
     return;
 }
 
-void consegna_moodle(){
+void consegna_esame(){
     int dim;
     int m;
     int n;
