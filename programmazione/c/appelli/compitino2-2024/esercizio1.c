@@ -62,6 +62,7 @@ void swap_eq(int* a, int dim, int i, int j, int n) {
 //      dim numero di elementi presenti nell'array (dim > 0)
 //      m, n, p numeri interi t.c. 0 <= m < n < p < dim -> il primo intervallo è [m - (n - 1)] mentre il secondo [n - (p - 1)]
 //POST: sse i due intervalli sono distinti (non sovrapposti) e presenti all'interno dell'array allora essi risulteranno scambiati
+//complessità: idk
 void swap(int* a, int dim, int m, int n, int p) {
     if(!((m >= 0) && (m < n) && (n < p) && (p < dim)))
         return;
