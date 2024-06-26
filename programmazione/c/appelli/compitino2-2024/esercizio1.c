@@ -78,13 +78,11 @@ void swap(int* a, int dim, int m, int n, int p) {
         //ora dobbiamo richiamare swap sugli elementi non intaccati dallo scambio e quelli intaccati
         swap(a, dim, m+int2, n, p);
         
-    }else{
+    }else{ //caso base -> i 2 intervalli hanno la stessa dimensione
         swap_eq(a, dim, m, n, int1);
         return;
     }
 }
-
-
 
 void consegna_moodle();
 
