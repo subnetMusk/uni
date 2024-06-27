@@ -51,7 +51,8 @@ int calcola_profondita(bst *ptr){
 int main(int argc, char **argv){
     bst *albero = NULL;
 
-    /*
+    /* non è l'albero dell'esempio ma credo vada bene uguale
+    
                             20
                     10             null
     */
