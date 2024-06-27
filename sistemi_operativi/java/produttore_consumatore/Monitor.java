@@ -29,8 +29,8 @@ public class Monitor {
 		}
 		
 		System.out.println("Produco item: " + val);
-		this.buffer[this.hi] = val;				//	|
-		this.count++;							//	| --> inserisco un elemento (e aggiorno l'indice)
+		this.buffer[this.hi] = val;			//	|
+		this.count++;					//	| --> inserisco un elemento (e aggiorno l'indice)
 		this.hi = (this.hi + 1) % this.N;		//	|
 		
 		if(this.count == 1) { //se counter = 1 il consumatore sta dormendo
@@ -45,7 +45,7 @@ public class Monitor {
 		
 		int val = this.buffer[this.lo];			//	|
 		this.lo = (this.lo + 1) % this.N;		//	| --> prelevo un elemento (e aggiorno l'indice)
-		this.count--;							//	|
+		this.count--;					//	|
 		System.out.println("Consumo item: " + val);
 
 		if(this.count == this.N - 1) { //se elementi nel buffer = N-1 il produttore sta dormendo
