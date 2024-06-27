@@ -43,7 +43,7 @@ int calcola_profondita(bst *ptr){
         return 0;
     
     if((ptr -> left == NULL && ptr -> right != NULL) || (ptr -> left != NULL && ptr -> right == NULL))
-        return 1;
+        return 0;
     
     return 1 + minore(calcola_profondita(ptr -> left), calcola_profondita(ptr -> right));
 }
@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 
     ord_insert(&albero, 20);
     ord_insert(&albero, 10);
-    printf("Profondità --> %d\n", calcola_profondita(albero)); //exp: 1
+    printf("Profondità --> %d\n", calcola_profondita(albero)); //exp: 0
 
 
    /*
@@ -73,7 +73,7 @@ int main(int argc, char **argv){
     ord_insert(&albero, 15);
     ord_insert(&albero, 35);
 
-    printf("Profondità --> %d\n", calcola_profondita(albero)); //exp: 2
+    printf("Profondità --> %d\n", calcola_profondita(albero)); //exp: 1
 
     ord_insert(&albero, 2);
     ord_insert(&albero, 7);
@@ -89,6 +89,6 @@ int main(int argc, char **argv){
     ord_insert(&albero, 46);
 
     printf("Profondità --> %d\n", calcola_profondita(albero)); //exp: 4
-    
+
     return 0;
 }
