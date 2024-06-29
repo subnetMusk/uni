@@ -146,3 +146,31 @@ int main(int argc, char **argv){
 
     return 0;
 }
+
+/* output:
+Profondità: 1 || info:
+        40
+NULL            NULL
+----------------------
+        ↓
+
+Profondità: 1 || info:
+        10
+2               NULL
+----------------------
+        ↓
+
+Profondità: 2 || info:
+        2
+NULL            5
+----------------------
+        ↓
+
+Profondità: 3 || info:
+        5
+NULL            NULL
+----------------------
+        ↓
+
+NULL
+*/
