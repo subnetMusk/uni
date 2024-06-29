@@ -90,7 +90,7 @@
         printf("\x1b[0m");
     }
 #elif defined(_WIN32) || defined(_WIN64)
-    //essendo che di semafori su windows non me ne intendo queste le ha scritte chatGPT [non le ho testate btw]
+    //essendo che di semafori su windows non me ne intendo queste le ha tradotte chatGPT [non le ho testate btw]
     typedef struct {
         HANDLE sem;
     } semaforo;
