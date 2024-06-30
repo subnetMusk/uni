@@ -105,6 +105,7 @@ void test(){
     printf("T: %s // P: %s \n", T, P);
 
     match *match = find_match(T, P, dimT, dimP);
+    printf("Expected: Match con distanza minore (1) inizia a 3.\n");
     stampa_match(match);
     printf("-------------------\n\n");
     return;
