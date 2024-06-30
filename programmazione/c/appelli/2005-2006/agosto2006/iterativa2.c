@@ -86,8 +86,9 @@ int calcola_distanza(int *index, int dim){
 }
 
 void stampa_match(match *ptr){
-    if(ptr -> dist == -1){
+    if(ptr == NULL || ptr -> dist == -1){
         printf("Match non trovato!\n");
+        return;
     }
 
     printf("Match con distanza minore (%d) inizia a %d.\n", ptr -> dist, ptr -> index);
