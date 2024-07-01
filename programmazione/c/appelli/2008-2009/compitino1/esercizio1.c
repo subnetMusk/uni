@@ -49,18 +49,15 @@ int conta_match(int *T, int *P, int dimT, int dimP, int col){
         return 0;
     }
     int (*matrice) [col] = (int (*) [col])T;
-    int match_totali = 0;
     int index_max_match = 0;
     int max_match = 0;
     for(int i = 0; i < (dimT/col) + 1; i++){
         int m = match_riga(matrice[i], P, dimP, col);
         printf("[Riga %d] %d match trovati\n", i, m);
-        match_totali += m;
         if(m > max_match){
             index_max_match = i;
             max_match = m;
-        }
-            
+        }  
     }
     return index_max_match;
 }
