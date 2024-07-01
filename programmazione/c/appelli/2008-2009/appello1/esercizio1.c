@@ -2,14 +2,12 @@
 #include<stdlib.h>
 #include<math.h>
 /*
-
     Si richiede di trattare un array T a 1 dimensione di dim elementi  come un array a due dimensioni con colon 
     colonne. Quindi questo array avrà R= dim/colon righe piene ed eventualmente un’ultima riga con solo 
     E=dim%colon elementi. Sulle righe di questa matrice (anche l’ultima con E elementi, se E>0) va fatto un 
     pattern match di un array P. E’ richiesto di contare i match di P su ciascuna riga, ma considerando solo 
     match non sovrapposti  tra di loro. La tecnica per affrontare il problema è quella di dividerlo in sotto 
     problemi ognuno dei quali verrà risolto con una funzione.  
-
 */
 
 void stampa_matrice(int *M, int dim, int col){
