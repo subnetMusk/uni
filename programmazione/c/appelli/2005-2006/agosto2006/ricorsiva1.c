@@ -164,7 +164,7 @@ int main(int argc, char** argv){
 
     nodo *ext = F(&list, lim1, lim2);
 
-    printf("\nLista originale post operazione:\n");
+    printf("\nLista originale post F():\n");
     stampa_lista(list);
     printf("\n");
     printf("Lista estratta:\n");
