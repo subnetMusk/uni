@@ -82,7 +82,8 @@ void F_i(int *P, int *M, int rig, int col){
 }
 /* ------------------------------------------------------------------------------------------------------------------------------------ */
 
-void R(int *M, int *C, int rig, int col){
+// forse è 'troppo iterativa' quindi ho fatto R2 sotto
+void R1(int *M, int *C, int rig, int col){
     if(col <= 0)
         return;
     int max, i_max;
@@ -99,9 +100,36 @@ void R(int *M, int *C, int rig, int col){
         }
     }
     *(C + (col - 1)) = i_max;
-    R(M, C, rig, col-1);
+    R1(M, C, rig, col-1);
     return;
 }
+
+
+
+int ind_max_r(int *M, int rig, int col, int i, int *max){
+    if(i <= 0){
+        *max = *((M) + (col));
+        return 0;
+    }
+
+    int m = ind_max_r(M, rig, col, i-1, max);
+    if(*((M + (i * rig)) + col) > *max){
+        *max = *((M + (i * rig)) + col);
+        return i;
+    }
+    return m;
+}
+
+void R2(int *M, int *C, int rig, int col){
+    if(col <= 0)
+        return;
+
+    int max;
+    *(C + (col - 1)) = ind_max_r(M, rig, col - 1, rig, &max);
+    R2(M, C, rig, col-1);
+    return;
+}
+
 
 void inizializza_array(int *A, int dim){
     for(int i = 0; i < dim; i++)
@@ -115,6 +143,7 @@ void stampa_array(int *A, int dim){
     printf("\n");
     return;
 }
+
 
 void test(){
     printf("-------------------\n");
@@ -151,11 +180,15 @@ void test(){
     F_i(P, Mi, righe, colonne);
     stampa_matrice(Mi, righe, colonne);
     
-    printf("\nFunzione R:\n");
-    int C[colonne];
-    R(Mr, C, righe, colonne);
-    stampa_array(C, colonne);
+    printf("\nFunzione R1:\n");
+    int C1[colonne];
+    R1(Mr, C1, righe, colonne);
+    stampa_array(C1, colonne);
 
+    printf("\nFunzione R2:\n");
+    int C2[colonne];
+    R2(Mr, C2, righe, colonne);
+    stampa_array(C2, colonne);
 
     printf("-------------------\n");
     return;
@@ -173,7 +206,7 @@ void leggi_array(int *A, int r, int c){
 
 int main(int argc, char** argv){
     test();
-
+    
     int righe = 0;
     do{
         printf("Inserire il numero di righe (>= 1): ");
@@ -212,11 +245,15 @@ int main(int argc, char** argv){
     printf("\nIterativamente:\n");
     stampa_matrice(Mi, righe, colonne);
 
-    printf("\nFunzione R:\n");
+    printf("\nFunzione R1:\n");
     int C[colonne];
-    R(Mr, C, righe, colonne);
+    R1(Mr, C, righe, colonne);
     stampa_array(C, colonne);
-
+    
+    printf("\nFunzione R2:\n");
+    int C2[colonne];
+    R2(Mr, C2, righe, colonne);
+    stampa_array(C2, colonne);
     return 0;
 }
 
@@ -248,7 +285,10 @@ int main(int argc, char** argv){
     19 12 7 2 
     20 13 5 1 
 
-    Funzione R:
+    Funzione R1:
+    1 0 0 1 
+
+    Funzione R2:
     1 0 0 1 
     -------------------
     Inserire il numero di righe (>= 1): 4
@@ -269,7 +309,7 @@ int main(int argc, char** argv){
     [3][1]: 0
     [3][2]: 0
     [3][3]: 1
-    
+
     P:
     1 0 0 0 
     0 1 0 0 
@@ -288,6 +328,9 @@ int main(int argc, char** argv){
     3 2 2 0 
     2 2 1 1 
 
-    Funzione R:
+    Funzione R1:
+    0 1 2 3 
+
+    Funzione R2:
     0 1 2 3 
 */
