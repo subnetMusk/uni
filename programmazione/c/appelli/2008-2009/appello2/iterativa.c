@@ -160,7 +160,7 @@ int main(int argc, char** argv){
     inizializza_array(P, righe * colonne);
     leggi_array(P, righe, colonne);
 
-    printf("P:\n");
+    printf("\nP:\n");
     stampa_matrice(P, righe, colonne);
     
 
@@ -180,3 +180,69 @@ int main(int argc, char** argv){
 
     return 0;
 }
+
+/*
+    output:
+    -------------------
+    TEST:
+    P:
+    6 5 5 1 
+    7 5 3 3 
+    6 5 4 2 
+    7 6 3 1 
+    
+    Excepted:
+    19 13 8 1
+    20 13 6 3
+    19 12 7 2
+    20 13 5 1
+    
+    Ricorsivamente:
+    19 13 8 1 
+    20 13 6 3 
+    19 12 7 2 
+    20 13 5 1 
+    
+    Iterativamente:
+    19 13 8 1 
+    20 13 6 3 
+    19 12 7 2 
+    20 13 5 1 
+    -------------------
+    Inserire il numero di righe (>= 1): 4
+    Inserire il numero di colonne (>= 1): 4
+    [0][0]: 1
+    [0][1]: 0
+    [0][2]: 0
+    [0][3]: 0
+    [1][0]: 0
+    [1][1]: 1
+    [1][2]: 0
+    [1][3]: 0
+    [2][0]: 0
+    [2][1]: 0
+    [2][2]: 1
+    [2][3]: 0
+    [3][0]: 0
+    [3][1]: 0
+    [3][2]: 0
+    [3][3]: 1
+    
+    P:
+    1 0 0 0 
+    0 1 0 0 
+    0 0 1 0 
+    0 0 0 1 
+    
+    Ricorsivamente:
+    4 0 0 0 
+    3 3 0 0 
+    3 2 2 0 
+    2 2 1 1 
+    
+    Iterativamente:
+    4 0 0 0 
+    3 3 0 0 
+    3 2 2 0 
+    2 2 1 1 
+*/
