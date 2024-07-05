@@ -4,8 +4,8 @@
 /*
     testo del problema in 2008-2009/II Appello (30-03-2009)
 
-    ho svolto l'esercizio sia in maniera iterativa (come richiesto) che ricorsiva (che era molto più semplice
-    in questo caso)
+    ho svolto l'esercizio sia in maniera iterativa (come richiesto, r52-82) che ricorsiva (che era molto più semplice
+    in questo caso, r37-50)
 */
 
 void stampa_matrice(int *A, int righe, int colonne){
