@@ -17,7 +17,7 @@ void minimi_termini(int *num, int *den){
     }
 
 
-    // per ssemplicita lavoro con numeri positivi
+    // per semplicita lavoro con numeri positivi
     if(*num < 0)
         *num *= -1;
     if(*den < 0)
