@@ -86,13 +86,15 @@ void stampa_l2e(L2E *ptr){
 
 void test(){
     printf("-------------------\n");
-    printf("TEST:\n");
+    printf("TEST:\n\n");
     L2E *x = new_l2e();
     addI(&x, new_node(1));
     addI(&x, new_node(2));
     addF(&x, new_node(3));
     addF(&x, new_node(4));
     addI(&x, new_node(0));
+    printf("Expected: \nInizio = 0\nLista = 0 -> 2 -> 1 -> 3 -> 4 -> NULL\nFine = 4\n\n");
+    printf("Actual:\n");
     stampa_l2e(x);
     printf("-------------------\n");
     return;
