@@ -104,7 +104,7 @@ void test(){
     printf("P:\n");
     stampa_matrice(P, righe, colonne);
 
-    printf("\nExcepted:\n");
+    printf("\nExpected:\n");
     printf("19 13 8 1\n20 13 6 3\n19 12 7 2\n20 13 5 1\n");
 
     //M deve contenere il valore del cammino massimo ottenibile partendo da P[i][j]
@@ -191,7 +191,7 @@ int main(int argc, char** argv){
     6 5 4 2 
     7 6 3 1 
     
-    Excepted:
+    Expected:
     19 13 8 1
     20 13 6 3
     19 12 7 2
