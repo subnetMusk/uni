@@ -1,6 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+
+    Gli esercizi riguardano le liste concatenate ed in concreto si chiede di considerare un tipo struttura 
+    L2E  (Lista a 2 Entrate) come segue:  struct L2E{nodo* I, *F;}; 
+    In un valore di tipo L2E,  i 2 campi puntano a 2 nodi di una stessa lista concatenata: il campo I (Inizio)  
+    punta  al primo nodo della lista ed il campo F (Fine) punta all’ultimo nodo della stessa lista. Quindi un 
+    valore L2E permettere di accedere direttamente, oltre che all’inizio di una lista, anche alla fine della 
+    lista. 
+    
+    1) Si chiede di scrivere le seguenti funzioni : 
+    -void addI(L2E & X, nodo* n) 
+    -void addF(L2E& X, nodo* n) 
+    che, rispettivamente, aggiungono il nodo n all’inizio ed alla fine della lista gestita da X.
+
+*/
+
 typedef struct nodo{
     int value;
     struct nodo *next;
