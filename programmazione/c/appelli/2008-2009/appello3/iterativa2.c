@@ -76,17 +76,13 @@ coppiaL F(nodo *l, int *P, int dimP){
 
     switch(dim_list(l)){
         case 0:
-            res.a = NULL;
-            res.b = NULL;
             break;
 
         case 1:
             if(l -> value == *P){
-                res.a = NULL;
                 res.b = l;
             }else{
                 res.a = l;
-                res.b = NULL;
             }
             break;
 
@@ -235,4 +231,5 @@ int main(int argc, char** argv){
     P: 1 2 5 7 5 
     Lista A: 3 -> 4 -> 6 -> 8 -> 9 -> NULL
     Lista B: 1 -> 2 -> 5 -> 7 -> NULL
+
 */
