@@ -1,6 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+
+    Data una lista concatenata L, i cui nodi hanno tipo struct nodo{int info; nodo* next;}; , e dato un 
+    array int P[dimP],  si chiede di fare match degli elementi di P  (in ordine) con i campi info dei nodi di L, 
+    scomponendo L in  2 liste: quella dei nodi in cui si è trovato il match e quella degli altri nodi di L.  Il 
+    seguente esempio dovrebbe chiarire l’enunciato. 
+    Esempio: sia L=6->3->1->5->2 e P=[3,1,7]. La funzione richiesta deve produrre la coppia di liste :                                 
+    (6->5->2, 3->1). Quindi non si richiede che il match di P sia completo. 
+    Visto che la funzione deve restituire una coppia di liste, è conveniente usare il seguente tipo struttura: 
+    struct coppiaL{nodo* a,*b;}; La funzione richiesta deve avere il seguente prototipo: 
+    coppiaL F(nodo*L, int*P,  int dimP) 
+    F deve essere iterativa e non deve in nessun caso creare nuovi nodi, ma deve distribuire i nodi della 
+    lista data L sulle 2 liste da costruire e da restituire con il return. La struttura L2E e la funzione addF 
+    dell’esercizio (1) dovrebbero venire usate per semplificare la realizzazione di F. Specificare la pre e la 
+    post condizione di F e l’invariante del ciclo che essa contiene.
+
+*/
+
 typedef struct nodo{
     int value;
     struct nodo *next;
