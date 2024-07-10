@@ -78,7 +78,11 @@ int match_riga_R(int *A, int C, int *P, int dimP, int colonna){
 void FR(int *T, int R, int C, int *P, int dimP, int *O, int riga){
     if(R == riga)
         return;
+
     
+    //la sezione sottostante (87-95) serve a mantenere invariato P e dimP all'interno delle chiamate ricorsive di questa
+    //funzione per poter chiamare la funzione "match_riga_R()" con i valori corretti nel caso tutti i valori di
+    //P siano gia' stati oggetto di un match
     int *P_attuale;
     int dimP_attuale, match_p = match_precedenti(O, riga);
     if(match_p >= dimP){
