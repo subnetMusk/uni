@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 /*
-    consegna: 'void ord_insert_bst(bst **albero, int val);' chiamata 'void build_bst(...);'
-    e con un campo chiamato num che indica quanti nodi ci sono nel sottoalbero
+    consegna: solita 'void ord_insert_bst(bst **albero, int val);' ma chiamata 'void build_bst(...);'
+    e con un campo chiamato 'num' che indica quanti nodi ci sono nel sottoalbero
 */
 
 typedef struct bst{
