@@ -187,6 +187,24 @@ def ROTdecode(rot_enc, pos):
 
 ''' ------ SOSTITUZIONI CARATTERI--------------------------------------- '''
 
+# Funzione che associa un dizionario ad una lista 
+# la uso per associare il dizionario dei caratteri più usati nel testo cifrato con la lista dei caratteri più comuni
+def associate(dict1, list1):
+	leng_dict1 = len(dict1)
+	leng_list1 = len(list1)
+	minimo = leng_dict1
+	if leng_list1 < minimo:
+		minimo = leng_list1
+	
+	res = {}
+	counter = 0
+	for k in dict1:
+		res[k] = list1[counter]
+		counter += 1
+		if counter >= minimo:
+			break
+	return res
+
 # Funzione che ritorna un dizionario del tipo "carattere" : "numero di volte che esso si ripete nel testo"
 # ordinato in maniera decrescente (dal carattere più frequente a quello meno frequente)
 def frequency(text):
