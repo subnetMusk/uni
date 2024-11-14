@@ -54,8 +54,9 @@ def binary_to_string(binary_string):
 ''''''
 
 ''' HEX '''
-def ascii_to_hex(message):
-    encoded = binascii.hexlify(message).decode()
+def ascii_to_hex(ascii_string):
+    ascii_bytes = ascii_string.encode('ascii')
+    encoded = binascii.hexlify(ascii_bytes).decode()
     return encoded
 
 def hex_to_ascii(hex_str):
@@ -134,6 +135,35 @@ def vigenere(enc_text, key):
 			plain_text += c
 	return plain_text
 
+def vigenere_s(enc_text, key):
+	alphabet_ext = string.ascii_lowercase + string.ascii_uppercase
+	alphabet = string.ascii_uppercase
+	
+	len_text = len(enc_text)
+	repetitions = math.ceil(len_text/len(key))
+	key_repeated = key * repetitions
+	key_repeated = key_repeated[:len_text]
+	
+	plain_text = ""
+	k_index = 0
+	for c in enc_text:
+		current_k = key_repeated[k_index % len(key_repeated)]
+		if find_index(alphabet_ext, c) != -1:
+			f = False
+			if c.islower():
+				f = True
+				c = c.upper()
+			
+			index = find_index(alphabet, c) + find_index(alphabet, current_k)
+			char = alphabet[index % len(alphabet)]
+			if f:
+				char = char.lower()
+			plain_text += char
+			k_index += 1
+		else:
+			plain_text += c
+	return plain_text
+
 # è esattamente come caesar -> ROT13 rimpiazza la lettera con la lettera 13 posizioni avanti
 def ROTencode(message, pos):
     alphabet = string.printable
@@ -192,6 +222,7 @@ def substitute(testo, sostituzioni):
 ''' -------------------------------------------------------------------- '''
 
 ''' ------ WEB EXPLOITATION -------------------------------------------- '''
+
 ''' MODIFICARE I COOKIES DI UNA PAGINA '''
 import requests
 
