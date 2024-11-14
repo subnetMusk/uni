@@ -320,7 +320,6 @@ sniff(filter="tcp port 80", prn=packet_callback, count=10)
         -picoCTF{s@n1t1z3_c785c319}
         +TOP SECRET
 
-        
 >>  steghide info <file>
     Steghide is steganography program which hides bits of a data file in some of 
     the least significant bits of another file in such a way that the existence 
