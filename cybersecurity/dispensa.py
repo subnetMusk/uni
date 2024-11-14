@@ -75,9 +75,70 @@ def caesar_cipher_alpha(cipher_text, pos):
     else:
       plain_text += c
   return plain_text
+
+# Funzione che risolva il cifrario di vigenere
+def vigenere(enc_text, key):
+	alphabet_ext = string.ascii_lowercase + string.ascii_uppercase
+	alphabet = string.ascii_uppercase
+	
+	len_text = len(enc_text)
+	repetitions = math.ceil(len_text/len(key))
+	key_repeated = key * repetitions
+	key_repeated = key_repeated[:len_text]
+	
+	plain_text = ""
+	k_index = 0
+	for c in enc_text:
+		current_k = key_repeated[k_index % len(key_repeated)]
+		if find_index(alphabet_ext, c) != -1:
+			f = False
+			if c.islower():
+				f = True
+				c = c.upper()
+			
+			index = find_index(alphabet, c) - find_index(alphabet, current_k)
+			char = alphabet[index % len(alphabet)]
+			if f:
+				char = char.lower()
+			plain_text += char
+			k_index += 1
+		else:
+			plain_text += c
+	return plain_text
       
 ''' -------------------------------------------------------------------- '''
 
+''' ------ SOSTITUZIONI CARATTERI--------------------------------------- '''
+# Funzione che ritorna un dizionario del tipo "carattere" : "numero di volte che esso si ripete nel testo"
+# ordinato in maniera decrescente (dal carattere più frequente a quello meno frequente)
+def frequency(text):
+  freq = {}
+  for c in text:
+    if c.upper() in freq.keys():
+      freq[c.upper()] += 1
+    else:
+      freq[c.upper()] = 1
 
+  freq = dict(sorted(freq.items(), key=lambda item: item[1], reverse=True))
+  return freq
 
-
+# Funzione che riceve in ingresso un testo e lo ritorna dopo aver sostituito le lettere come definito dal dizionario
+# sostituzioni ("lettera originale" : "lettera finale", esempio txt = "abc", sost ={"b" : "d", "c" : "e"} -> txt = "ade")
+# ATTENZIONE: è preferibile che chiavi e valori del dizionario siano maiuscoli
+def substitute(testo, sostituzioni):
+    plain = ""
+    for c in testo:
+        if c.upper() in sostituzioni.keys():
+            f = False
+            if c.islower():
+              f = True
+              c = c.upper()
+            char = sostituzioni[c]
+            if f:
+              char = char.lower()
+            plain += char
+        else:
+            plain += c
+    return plain
+    
+''' -------------------------------------------------------------------- '''
