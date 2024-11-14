@@ -267,15 +267,12 @@ def substitute(testo, sostituzioni):
 >>  curl <opt> <address>
     `curl` is a command-line tool and library for transferring data with URLs. 
     It supports a wide range of protocols, making it an invaluable tool for fetching,
-    uploading, and managing data over the Internet
+    uploading, and managing data over the Internet.
 
     Esempio: (l'opzione -I permette di visualizzare solo l'header della risposta)
       >> curl -I http://mercury.picoctf.net:45028
       HTTP/1.1 200 OK
       flag: picoCTF{r3j3ct_th3_du4l1ty_775f2530}
       Content-type: text/html; charset=UTF-8
-
-
-
 
 '''
