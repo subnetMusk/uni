@@ -1,39 +1,67 @@
 import base64
 import string
 import math
+import binascii
 
 ''' ------ FUNZIONI DI BASE -------------------------------------------- '''
 
-# Funzione che legga interamente il contenuto di un file di testo
+# Funzione che legge interamente il contenuto di un file di testo
 # es. filename = "documento.txt"
 def read_content(filename):
   with open(filename, "r") as file:
     content = file.read()
   return content
 
-# Funzione che converta una stringa in base64 ad ascii
+''' BASE 64'''
+# Funzione che converte una stringa in base64 ad ascii
 def base64_to_string(base64_string):
     base64_bytes = base64_string.encode('ascii')
     ascii_bytes = base64.b64decode(base64_bytes)
     ascii_string = ascii_bytes.decode('ascii')
     return ascii_string
 
-# Funzione che converta da ascii a base64
+# Funzione che converte da ascii a base64
 def string_to_base64(ascii_string):
     ascii_bytes = ascii_string.encode('ascii')
     base64_bytes = base64.b64encode(ascii_bytes)
     base64_string = base64_bytes.decode('ascii')
     return base64_string
+''''''
 
-# Funzione che converta da ascii a binario
+''' BASE 32 '''
+def base32_to_string(b32_enc):
+    decoded_bytes = base64.b32decode(b32_enc)
+    decoded_str = decoded_bytes.decode('utf-8')
+    return decoded_str
+
+def string_to_base32(ascii_string):
+    ascii_bytes = ascii_string.encode('ascii')
+    base32_bytes = base64.b32encode(ascii_bytes)
+    base32_string = base32_bytes.decode('ascii')
+    return base32_string
+''''''
+
+''' BINARIO'''
+# Funzione che converte da ascii a binario
 def string_to_binary(ascii_string):
     binary_string = ' '.join(format(ord(char), '08b') for char in ascii_string)
     return binary_string
 
-# Funzione che converta da binario ad ascii
+# Funzione che converte da binario ad ascii
 def binary_to_string(binary_string):
     ascii_string = ''.join(chr(int(byte, 2)) for byte in binary_string.split())
     return ascii_string
+''''''
+
+''' HEX '''
+def ascii_to_hex(message):
+    encoded = binascii.hexlify(message).decode()
+    return encoded
+
+def hex_to_ascii(hex_str):
+    decoded = binascii.unhexlify(hex_str).decode()
+    return decoded
+''''''
 
 ''' -------------------------------------------------------------------- '''
 
@@ -105,10 +133,30 @@ def vigenere(enc_text, key):
 		else:
 			plain_text += c
 	return plain_text
-      
+
+# è esattamente come caesar -> ROT13 rimpiazza la lettera con la lettera 13 posizioni avanti
+def ROTencode(message, pos):
+    alphabet = string.printable
+    leng = len(alphabet)
+    rot13_enc = ''
+    for c in message:
+        i = alphabet.index(c)
+        rot13_enc += alphabet[(i+pos)%leng]
+    return rot13_enc
+
+def ROTdecode(rot_enc, pos):
+    alphabet = string.printable
+    leng = len(alphabet)
+    text = ""
+    for c in rot_enc:
+      i = alphabet.index(c)
+      text += alphabet[(i - pos) % leng]
+    return text
+
 ''' -------------------------------------------------------------------- '''
 
 ''' ------ SOSTITUZIONI CARATTERI--------------------------------------- '''
+
 # Funzione che ritorna un dizionario del tipo "carattere" : "numero di volte che esso si ripete nel testo"
 # ordinato in maniera decrescente (dal carattere più frequente a quello meno frequente)
 def frequency(text):
@@ -140,5 +188,94 @@ def substitute(testo, sostituzioni):
         else:
             plain += c
     return plain
-    
+
 ''' -------------------------------------------------------------------- '''
+
+''' ------ COMANDI TERMINALE ------------------------------------------- 
+
+>>  git show <file> 
+    The git show command is used to view the changes of a specific commit
+
+    Esempio: picoCTF/commitment_issues
+      Il file presenta una sola riga con la scritta 'TOP SECRET':
+        >> git show message.txt           
+        commit 42942c9c605b30100f5d859ef6e172027447c0db (HEAD -> master)
+        Author: picoCTF <ops@picoctf.com>
+        Date:   Tue Mar 12 00:06:23 2024 +0000
+
+            remove sensitive info
+
+        diff --git a/message.txt b/message.txt
+        index 0e0fefc..d552d1e 100644
+        --- a/message.txt
+        +++ b/message.txt
+        @@ -1 +1 @@
+        -picoCTF{s@n1t1z3_c785c319}
+        +TOP SECRET
+
+        
+>>  steghide info <file>
+    Steghide is steganography program which hides bits of a data file in some of 
+    the least significant bits of another file in such a way that the existence 
+    of the data file is not visible and cannot be proven.
+
+    Steghide is designed to be portable and configurable and features hiding data in bmp, 
+    jpeg, wav and au files, blowfish encryption, MD5 hashing of passphrases to blowfish 
+    keys, and pseudo-random distribution of hidden bits in the container data.
+
+    Esempio: picoCTF/hide2see
+      Viene fornito un solo file di tipo .jpg
+        >> steghide info atbash.jpg
+        "atbash.jpg":
+          format: jpeg
+          capacity: 2.4 KB
+        Try to get information about embedded data ? (y/n) y
+        Enter passphrase: 
+          embedded file "encrypted.txt":
+            size: 31.0 Byte
+            encrypted: rijndael-128, cbc
+            compressed: yes
+
+>>  steghide extract -sf <file>
+    Estraiamo il file embedded: (la passphrase può essere vuota, come in questo caso)
+      >> steghide extract -sf atbash.jpg
+      Enter passphrase: 
+      wrote extracted data to "encrypted.txt".
+
+>>  xxd <file>
+    xxd is a command-line tool that is primarily used for creating and analyzing 
+    hexadecimal dumps from files. It can also be used to reverse the process and 
+    convert a hexadecimal dump back into binary form.
+
+    Esempio:
+      >> xxd atbash.jpg     
+      00000000: ffd8 ffe0 0010 4a46 4946 0001 0100 0001  ......JFIF......
+      00000010: 0001 0000 ffdb 0043 0006 0405 0605 0406  .......C........
+      00000020: 0605 0607 0706 080a 100a 0a09 090a 140e  ................
+      00000030: 0f0c 1017 1418 1817 1416 161a 1d25 1f1a  .............%..
+      00000040: 1b23 1c16 1620 2c20 2326 2729 2a29 191f  .#... , #&')*)..
+      00000050: 2d30 2d28 3025 2829 28ff db00 4301 0707  -0-(0%()(...C...
+      00000060: 070a 080a 130a 0a13 281a 161a 2828 2828  ........(...((((
+      00000070: 2828 2828 2828 2828 2828 2828 2828 2828  ((((((((((((((((
+      00000080: 2828 2828 2828 2828 2828 2828 2828 2828  ((((((((((((((((
+      00000090: 2828 2828 2828 2828 2828 2828 2828 ffc0  ((((((((((((((..
+      000000a0: 0011 0801 c701 d103 0122 0002 1101 0311  ........."......
+      000000b0: 01ff c400 1f00 0001 0501 0101 0101 0100  ................
+      000000c0: 0000 0000 0000 0001 0203 0405 0607 0809  ................
+      ...
+
+>>  curl <opt> <address>
+    `curl` is a command-line tool and library for transferring data with URLs. 
+    It supports a wide range of protocols, making it an invaluable tool for fetching,
+    uploading, and managing data over the Internet
+
+    Esempio: (l'opzione -I permette di visualizzare solo l'header della risposta)
+      >> curl -I http://mercury.picoctf.net:45028
+      HTTP/1.1 200 OK
+      flag: picoCTF{r3j3ct_th3_du4l1ty_775f2530}
+      Content-type: text/html; charset=UTF-8
+
+
+
+
+'''
