@@ -11,7 +11,7 @@ Permette di:
 
 - Verificare lo schema e la popolazione del DB (`db/init.sql`).
 - Eseguire 10 query di esempio (in `src/queries.h`) e stampare i risultati in formato tabellare.
-- Configurare dinamicamente i parametri di connessione tramite prompt interattivo.
+- Configurare dinamicamente i parametri di connessione tramite prompt da terminale.
 
 ---
 
@@ -85,5 +85,5 @@ chmod +x script.sh
 - Aggiorna `src/queries.h` per sostituire o aggiungere query.  
 - Puoi passare una connection string completa come argomento:
   ```bash
-  ./build/connessione_db "host=localhost dbname=ristorante_db user=postgres password=segreta"
+  ./build/connessione_db "host=<host> dbname=<nome_db> user=<user> password=<psw>"
   ```
