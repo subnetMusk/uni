@@ -1,0 +1,24 @@
+# build artifacts
+/src/build/
+/build/
+/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# executables
+connessione_db
+*.o
+*.obj
+
+# librerie
+*.so
+*.dylib
+*.dll
+
+# editor/OS
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+*~
