@@ -4,39 +4,53 @@
 #include <libpq-fe.h>
 #include "queries.h"
 
+// Termina la connessione e esce in caso di errore
 static void exit_nicely(PGconn *conn) {
     PQfinish(conn);
     exit(EXIT_FAILURE);
 }
 
-int main(void) {
-    char host[128], db[128], user[128], pass[128];
+int main(int argc, char *argv[]) {
+    char conninfo[1024];
+    PGconn *conn = NULL;
 
-    // Prompt per i parametri di connessione
-    printf("Host (es. localhost): ");
-    if (!fgets(host, sizeof(host), stdin)) return 1;
-    host[strcspn(host, "\n")] = '\0';
+    if (argc > 1) {
+        // Costruisce connection string da argomenti
+        size_t pos = 0;
+        for (int i = 1; i < argc; i++) {
+            size_t len = strlen(argv[i]);
+            if (pos + len + 1 >= sizeof(conninfo)) break;
+            memcpy(conninfo + pos, argv[i], len);
+            pos += len;
+            conninfo[pos++] = (i+1<argc ? ' ' : '\0');
+        }
+    } else {
+        // Prompt per i parametri di connessione
+        char host[128], db[128], user[128], pass[128];
+        printf("Host (es. localhost): ");
+        if (!fgets(host, sizeof(host), stdin)) return 1;
+        host[strcspn(host, "\n")] = '\0';
 
-    printf("Database: ");
-    if (!fgets(db, sizeof(db), stdin)) return 1;
-    db[strcspn(db, "\n")] = '\0';
+        printf("Database: ");
+        if (!fgets(db, sizeof(db), stdin)) return 1;
+        db[strcspn(db, "\n")] = '\0';
 
-    printf("Utente: ");
-    if (!fgets(user, sizeof(user), stdin)) return 1;
-    user[strcspn(user, "\n")] = '\0';
+        printf("Utente: ");
+        if (!fgets(user, sizeof(user), stdin)) return 1;
+        user[strcspn(user, "\n")] = '\0';
 
-    printf("Password: ");
-    if (!fgets(pass, sizeof(pass), stdin)) return 1;
-    pass[strcspn(pass, "\n")] = '\0';
+        printf("Password: ");
+        if (!fgets(pass, sizeof(pass), stdin)) return 1;
+        pass[strcspn(pass, "\n")] = '\0';
 
-    // Costruisci la connection string
-    char conninfo[512];
-    snprintf(conninfo, sizeof(conninfo),
-             "host=%s dbname=%s user=%s password=%s",
-             host, db, user, pass);
+        // Costruisce connection string da promt terminale
+        snprintf(conninfo, sizeof(conninfo),
+                 "host=%s dbname=%s user=%s password=%s",
+                 host, db, user, pass);
+    }
 
     // Connessione al database
-    PGconn *conn = PQconnectdb(conninfo);
+    conn = PQconnectdb(conninfo);
     if (PQstatus(conn) != CONNECTION_OK) {
         fprintf(stderr, "Connessione fallita: %s", PQerrorMessage(conn));
         exit_nicely(conn);
@@ -45,34 +59,27 @@ int main(void) {
     // Esecuzione delle query
     for (int i = 0; i < N_QUERIES; i++) {
         const char *sql = queries[i];
-        if (sql[0] == '\0') {
-            continue;
-        }
+        if (sql[0] == '\0') continue;
 
         printf("\n--- Query %d ---\n%s\n", i + 1, sql);
         PGresult *res = PQexec(conn, sql);
         if (PQresultStatus(res) != PGRES_TUPLES_OK) {
-            fprintf(stderr, "Errore esecuzione query %d: %s", i + 1, PQerrorMessage(conn));
+            fprintf(stderr, "Errore query %d: %s", i + 1, PQerrorMessage(conn));
             PQclear(res);
             continue;
         }
 
-        int nfields = PQnfields(res);
-        int nrows = PQntuples(res);
-
-        // Stampa intestazioni
-        for (int f = 0; f < nfields; f++) {
+        int nfields = PQnfields(res), nrows = PQntuples(res);
+        // Stampa header tabella
+        for (int f = 0; f < nfields; f++)
             printf("%-20s", PQfname(res, f));
-        }
         printf("\n");
         for (int f = 0; f < nfields * 20; f++) putchar('-');
         printf("\n");
-
-        // Stampa righe
+        // Stampa dati
         for (int r = 0; r < nrows; r++) {
-            for (int f = 0; f < nfields; f++) {
+            for (int f = 0; f < nfields; f++)
                 printf("%-20s", PQgetvalue(res, r, f));
-            }
             printf("\n");
         }
         PQclear(res);
