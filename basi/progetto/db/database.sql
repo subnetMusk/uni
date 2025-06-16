@@ -816,6 +816,16 @@ INSERT INTO Fornitura (manager, fornitore, data, ora) VALUES
   ('VNTGRT76M21O789P','67890123456','2025-05-16','15:50:00'),
   ('BRTMRA91A01C354L','78901234567','2025-05-17','09:05:00'),
   ('TSDNDR83C25E456Q','89012345678','2025-05-18','13:25:00'),
+  ('PRSLGA82E17H234M','90123456789','2025-05-19','10:40:00'),
+  ('CASSMI80C03F205A','01234567890','2025-05-10','09:30:00'),
+  ('DCTFRC75A05L219C','12345678901','2025-05-11','10:15:00'),
+  ('LLMGLR89E16J452W','23456789012','2025-05-12','11:00:00'),
+  ('PLBSDL77G17V501K','34567890123','2025-05-13','14:45:00'),
+  ('MZTPLO83I29X321L','45678901234','2025-05-14','08:20:00'),
+  ('TPRFRN79K10N456M','56789012345','2025-05-15','12:10:00'),
+  ('VNTGRT76M21O789P','67890123456','2025-05-16','15:50:00'),
+  ('BRTMRA91A01C354L','78901234567','2025-05-17','09:05:00'),
+  ('TSDNDR83C25E456Q','89012345678','2025-05-18','13:25:00'),
   ('PRSLGA82E17H234M','90123456789','2025-05-19','10:40:00');
 
 
@@ -869,7 +879,46 @@ INSERT INTO Contenuto (fornitura, ingrediente, quantita, prezzo_unita) VALUES
   (10,'Carpaccio di Manzo',22000,3.20),
   (10,'Mozzarella',21000,1.80),
   (10,'Mascarpone',24000,2.10),
-  (10,'Zucchero',20000,0.50);
+  (10,'Zucchero',20000,0.50),
+  (11,'Pomodoro',15000,0.90),
+  (11,'Basilico',2000,1.50),
+  (11,'Olio di oliva',8000,3.20),
+
+  (12,'Spaghetti',12000,1.10),
+  (12,'Penne',10000,0.95),
+  (12,'Pepe',1500,2.00),
+
+  (13,'Funghi',9000,2.50),
+  (13,'Riso Arborio',11000,1.80),
+  (13,'Parmigiano',7000,1.20),
+
+  (14,'Gnocchi',8000,1.00),
+  (14,'Tortellini',3000,2.10),
+  (14,'Olio di oliva',5000,3.15),
+
+  (15,'Tortellini',10000,1.60),
+  (15,'Fettuccine',5000,0.50),
+  (15,'Parmigiano',6000,1.25),
+
+  (16,'Mozzarella',9000,1.40),
+  (16,'Prosciutto',7000,2.30),
+  (16,'Olive',4000,1.75),
+
+  (17,'Lasagna',8000,1.90),
+  (17,'Carne di Manzo',12000,3.00),
+  (17,'Pomodoro',6000,1.10),
+
+  (18,'Melanzane',10000,1.20),
+  (18,'Pomodoro',9000,0.85),
+  (18,'Parmigiano',5000,1.30),
+
+  (19,'Calamari',7000,2.80),
+  (19,'Farina',8000,0.60),
+  (19,'Olio di oliva',9000,3.00),
+
+  (20,'Mascarpone',6000,1.75),
+  (20,'Zucchero',8000,0.40),
+  (20,'Caffe',7000,2.20);
 
 
 INSERT INTO Prenotazione (cliente, caposala, sala, tavolo, data_prenotazione, ora_inizio, ora_fine, num_persone) VALUES
@@ -1123,3 +1172,75 @@ INSERT INTO Composizione (ordine, piatto, quantita) VALUES
   (98,'Tiramisu',1),
   (99,'Crostatine ai Frutti di Bosco',1),
   (99,'Sorbetto al Limone',1);
+
+-- QUERY 
+-- query 1: Top 10 clienti per spesa totale (delivery + asporto)
+SELECT o.cliente AS cliente_email, 
+SUM(c.quantita * p.prezzo) AS spesa_totale_euro
+FROM Ordine o
+JOIN Composizione c ON c.ordine = o.id
+JOIN Piatto p ON p.nome = c.piatto
+GROUP BY o.cliente
+ORDER BY spesa_totale_euro DESC
+LIMIT 10;
+
+-- query 2: Fornitori per numero di ingredienti distinti forniti ad una singola filiale
+SELECT f.partita_iva AS fornitore_piva, 
+f.email AS fornitore_email, 
+MAX(sub.ingredienti_forniti) AS max_ingredienti_forniti
+FROM (
+    SELECT fo.fornitore, 
+    d.filiale, 
+    COUNT(DISTINCT c.ingrediente) AS ingredienti_forniti
+    FROM Fornitura fo
+    JOIN Dipendente d ON d.cf = fo.manager
+    JOIN Contenuto c ON c.fornitura = fo.id
+    GROUP BY fo.fornitore, d.filiale
+) AS sub
+JOIN Fornitore f ON f.partita_iva = sub.fornitore
+GROUP BY f.partita_iva, f.email
+ORDER BY max_ingredienti_forniti DESC;
+
+-- query 3: Lista dei 10 ingredienti più consumati in assoluto
+SELECT r.ingrediente AS nome_ingrediente,
+SUM(c.quantita * r.quantita) AS totale_consumato
+FROM Composizione c
+JOIN Ricetta r ON r.piatto = c.piatto
+GROUP BY r.ingrediente
+ORDER BY totale_consumato DESC
+LIMIT 10;
+
+-- query 4: Filiali ordinate per quantità di piatti disponibili da inventario
+SELECT f.citta AS filiale_citta,
+f.indirizzo AS filiale_indirizzo,
+COUNT(DISTINCT c.piatto) AS piatti_disponibili
+FROM Filiale f
+JOIN Ordine o ON o.filiale = f.id
+JOIN Composizione c ON c.ordine = o.id
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Ricetta r
+    LEFT JOIN Inventario inv
+    ON inv.ingrediente = r.ingrediente
+    AND inv.filiale = f.id
+    WHERE r.piatto = c.piatto
+    AND (inv.quantita IS NULL OR inv.quantita < r.quantita)
+)
+GROUP BY f.citta, f.indirizzo
+ORDER BY piatti_disponibili DESC;
+
+-- query 5: Top 5 clienti con più prenotazioni complessive nella stessa filiale
+SELECT pr.cliente AS cliente_email,
+d.filiale AS filiale_id,
+COUNT(*) AS numero_prenotazioni
+FROM Prenotazione pr
+JOIN Dipendente d ON pr.caposala = d.cf
+GROUP BY pr.cliente, d.filiale
+ORDER BY numero_prenotazioni DESC
+LIMIT 5;
+
+
+-- INDICI
+CREATE INDEX idx_fornitura_manager ON Fornitura USING HASH(manager);
+CREATE INDEX idx_prenotazione_caposala ON Prenotazione USING HASH(caposala);
+CREATE INDEX idx_composizione_ordine ON Composizione USING HASH(ordine);
