@@ -73,8 +73,8 @@ Durante l’esecuzione verranno richiesti:
 Per rimuovere tutti i file generati da CMake (cartella `src/build/`, Makefile, `CMakeCache.txt`, ecc.) esegui dalla root del progetto:
 
 ```bash
-chmod +x script.sh
-./script.sh
+chmod +x clear_build.sh
+./clear_build.sh
 ```
 
 ---
