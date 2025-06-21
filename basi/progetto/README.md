@@ -9,7 +9,7 @@ Un progetto C/Multi–SQL per la gestione di una catena di ristoranti, che dimos
 Questo tool in C centralizza le informazioni su filiali, personale, clienti, ordini, prenotazioni, piatti e ingredienti.  
 Permette di:
 
-- Verificare lo schema e la popolazione del DB (`db/init.sql`).
+- Verificare lo schema e la popolazione del DB (`db/database.sql`).
 - Eseguire 10 query di esempio (in `src/queries.h`) e stampare i risultati in formato tabellare.
 - Configurare dinamicamente i parametri di connessione tramite prompt da terminale.
 
@@ -20,7 +20,7 @@ Permette di:
 ```
 progetto/
 ├── db/
-│   └── init.sql            # DDL + INSERT per creare e popolare il DB
+│   └── database.sql            # DDL + INSERT per creare e popolare il DB
 ├── clear_build.sh          # script di pulizia degli artefatti di build
 └── src/
     ├── CMakeLists.txt      # configurazione CMake
@@ -81,7 +81,7 @@ chmod +x script.sh
 
 ## Personalizzazione
 
-- Modifica `db/init.sql` per aggiornare schema e dati.  
+- Modifica `db/database.sql` per aggiornare schema e dati.  
 - Aggiorna `src/queries.h` per sostituire o aggiungere query.  
 - Puoi passare una connection string completa come argomento:
   ```bash
