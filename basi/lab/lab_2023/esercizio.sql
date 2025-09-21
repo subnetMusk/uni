@@ -1,3 +1,5 @@
+-- ! ATTENZIONE: alcune query sono errate tuttavia ho caricato cmq perché mi serviva
+
 -- Riflettendo sulla distanza percorsa: quant’`e la media di distanza percorsa in metri? Qual `e
 -- la distanza percorsa massima?
 SELECT 	AVG(meters) AS media_distanza,
